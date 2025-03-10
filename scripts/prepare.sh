@@ -3,9 +3,13 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-# Configuration
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
+# Load environment variables from .env file if it exists
+if [ -f .env ]; then
+    export $(grep -v '^#' .env | xargs)
+else
+    echo "The .env file was not found. Please create it with the required environment variables"
+    exit 1
+fi
 
 # Define required environment variables
 REQUIRED_VARS=("POSTGRES_HOST" "POSTGRES_PORT" "POSTGRES_USER" "POSTGRES_PASSWORD" "POSTGRES_DB")
